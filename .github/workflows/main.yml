@@ -18,15 +18,17 @@ jobs:
 
     - name: Start OWASP ZAP
       run: |
-        "C:\Program Files\OWASP\Zed Attack Proxy\zap.bat" -daemon -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
-      continue-on-error: true
+        & "C:\Program Files\OWASP\Zed Attack Proxy\zap.bat" -daemon -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
+      shell: pwsh
 
     - name: Wait for ZAP to start
       run: Start-Sleep -Seconds 30
+      shell: pwsh
 
     - name: Run ZAP Scan
       run: |
         powershell -File .github/scripts/zap_scan.ps1
+      shell: pwsh
 
     - name: Upload ZAP HTML Report
       uses: actions/upload-artifact@v2
