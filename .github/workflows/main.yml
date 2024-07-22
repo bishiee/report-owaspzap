@@ -24,9 +24,15 @@ jobs:
         }
       shell: powershell
 
+    - name: Print Environment Variables
+      run: |
+        Get-ChildItem Env:
+      shell: powershell
+
     - name: Start OWASP ZAP
       run: |
-        & "C:\Program Files\ZAP\Zed Attack Proxy\zap.bat" -daemon -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true
+        & "C:\Program Files\ZAP\Zed Attack Proxy\zap.bat" -daemon -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true > zap_log.txt 2>&1
+        Get-Content zap_log.txt
       shell: powershell
 
     - name: Wait for ZAP to start
